@@ -3,10 +3,14 @@ load_dotenv()
 
 import json
 import requests
-from newspaper import Article
+from newspaper import Article # type: ignore
 from langchain.schema import (
     HumanMessage
 )
+from langchain.chat_models import ChatOpenAI
+
+# load the model
+chat = ChatOpenAI(model_name="gpt-4", temperature=0)
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36'
@@ -31,3 +35,28 @@ try:
         print(f"Failed to fetch article at {article_url}")
 except Exception as e:
     print(f"Error occurred while fetching article at {article_url}: {e}")
+
+# we get the article data from the scraping part
+article_title = article.title
+article_text = article.text
+
+template = """You are a very good assistant that summarizes online articles.
+
+Here's the article you want to summarize.
+
+==================
+Title: {article_title}
+
+{article_text}
+==================
+
+Now, provide a summarized version of the article in a bulleted list format.
+"""
+# Write a summary of the previous article.
+
+prompt = template.format(article_title=article_title, article_text=article_text)
+
+messages = [HumanMessage(content=prompt)]
+
+summary = chat(messages)
+print(summary.content)
