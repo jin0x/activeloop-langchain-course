@@ -1,6 +1,10 @@
 # Created by https://www.toptal.com/developers/gitignore/api/venv,dotenv,macos,windows,intellij,jetbrains
 # Edit at https://www.toptal.com/developers/gitignore?templates=venv,dotenv,macos,windows,intellij,jetbrains
 
+
+.vscode/
+**/.vscode/
+
 ### dotenv ###
 .env
 
