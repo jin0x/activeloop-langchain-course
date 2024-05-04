@@ -1,8 +1,6 @@
 from dotenv import load_dotenv
 load_dotenv()
 
-import os
-
 from langchain.llms import OpenAI
 from langchain.agents import AgentType
 from langchain.agents import load_tools
