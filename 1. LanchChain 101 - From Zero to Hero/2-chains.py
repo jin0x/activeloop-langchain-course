@@ -1,8 +1,8 @@
 from dotenv import load_dotenv
 load_dotenv()
 
-from langchain.prompts import PromptTemplate
 from langchain.llms import OpenAI
+from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
 
 llm = OpenAI(model="gpt-3.5-turbo-instruct", temperature=0.9)
