@@ -42,7 +42,7 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 ---
 
-Feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/john-leskas/) or follow me on [GitHub](https://github.com/jin0c).
+Feel free to connect with me on [LinkedIn](https://www.linkedin.com/in/john-leskas/) or follow me on [GitHub](https://github.com/jin0x).
 
 Happy Learning!
 
