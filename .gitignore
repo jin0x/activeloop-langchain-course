@@ -237,6 +237,9 @@ Temporary Items
 [Ss]cripts
 pyvenv.cfg
 .venv
+venv/
+**/.venv
+**/venv/
 pip-selfcheck.json
 
 ### Windows ###
@@ -264,5 +267,8 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+
+
 
 # End of https://www.toptal.com/developers/gitignore/api/venv,dotenv,macos,windows,intellij,jetbrains
