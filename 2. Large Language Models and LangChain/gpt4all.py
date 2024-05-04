@@ -1,3 +1,6 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 # Import modules
 from langchain.llms import GPT4All
 from langchain import PromptTemplate, LLMChain

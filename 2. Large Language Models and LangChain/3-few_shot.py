@@ -1,9 +1,12 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 from langchain import PromptTemplate
 from langchain import FewShotPromptTemplate
 from langchain.chat_models import ChatOpenAI
 from langchain import LLMChain
 
-# create our examples dictionery
+# create our examples' dictionary
 examples = [
     {
         "query": "What's the weather like?",

@@ -1,6 +1,6 @@
 from langchain import PromptTemplate
 from langchain import HuggingFaceHub, LLMChain
-from dotenv import load_dotenv 
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -10,7 +10,7 @@ Answer: """
 prompt = PromptTemplate(
         template=template,
         input_variables=['question']
-        )   
+        )
 
 # user question
 question =input("")
@@ -28,4 +28,4 @@ llm_chain = LLMChain(
 )
 
 # ask the user question about the capital of France
-print(llm_chain.run(question)) 
+print(llm_chain.run(question))
