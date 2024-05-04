@@ -1,7 +1,6 @@
 from dotenv import load_dotenv
 load_dotenv()
 
-import json
 import requests
 from newspaper import Article # type: ignore
 from langchain.schema import (
