@@ -3,7 +3,7 @@ load_dotenv()
 
 from langchain.prompts import PromptTemplate
 from langchain.chains import LLMChain
-from langchain_community.llms import OpenAI
+from langchain_openai import OpenAI
 
 # Initialize LLM
 llm = OpenAI(model_name="gpt-3.5-turbo-instruct", temperature=0)
