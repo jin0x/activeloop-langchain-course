@@ -1,21 +1,24 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 from langchain import PromptTemplate, LLMChain
-from langchain.llms import OpenAI
+from langchain_openai import OpenAI
 
 # Initialize LLM
-llm = OpenAI(model_name="text-davinci-003", temperature=0)
+llm = OpenAI(model_name="gpt-3.5-turbo-instruct", temperature=0)
 
 # Prompt 1
 template_question = """What is the name of the famous scientist who developed the theory of general relativity?
 Answer: """
 prompt_question = PromptTemplate(
-    template=template_question, 
+    template=template_question,
     input_variables=[])
 
 # Prompt 2
 template_fact = """Provide a brief description of {scientist}'s theory of general relativity.
 Answer: """
 prompt_fact = PromptTemplate(
-    input_variables=["scientist"], 
+    input_variables=["scientist"],
     template=template_fact)
 
 # Create the LLMChain for the first prompt
