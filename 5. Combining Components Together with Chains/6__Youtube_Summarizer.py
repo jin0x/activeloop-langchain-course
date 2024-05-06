@@ -84,27 +84,22 @@ wrapped_text = textwrap.fill(output_summary, width=100)
 print( chain.llm_chain.prompt.template )
 print(wrapped_text)
 
-# The "stuff" approach
 prompt_template = """Write a concise bullet point summary of the following:
 
-
 {text}
-
 
 CONSCISE SUMMARY IN BULLET POINTS:"""
 
 BULLET_POINT_PROMPT = PromptTemplate(template=prompt_template, input_variables=["text"])
 
 
-# Initialized the summarization chain using the stuff as chain_type and the prompt above.
+# The "stuff" approach
 chain = load_summarize_chain(
     llm,
     chain_type="stuff",
     prompt=BULLET_POINT_PROMPT
 )
-
 output_summary = chain.run(docs)
-
 wrapped_text = textwrap.fill(
     output_summary,
     width=1000,
@@ -116,7 +111,6 @@ print(wrapped_text)
 # The 'refine' summarization chain is a method for generating more accurate and context-aware summaries.
 # This method can result in more accurate and context-aware summaries compared to other chain types like 'stuff' and 'map_reduce'.
 chain = load_summarize_chain(llm, chain_type="refine")
-
 output_summary = chain.run(docs)
 wrapped_text = textwrap.fill(output_summary, width=100)
 print(wrapped_text)
