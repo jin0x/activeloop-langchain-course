@@ -1,4 +1,4 @@
-from langchain.document_loaders import SeleniumURLLoader
+from langchain_community.document_loaderss import SeleniumURLLoader
 
 urls = [
     "https://www.youtube.com/watch?v=TFa539R09EQ&t=139s",

@@ -1,7 +1,10 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 from langchain.document_loaders import PyPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 
-loader = PyPDFLoader("The One Page Linux Manual.pdf")
+loader = PyPDFLoader("../data/The One Page Linux Manual.pdf")
 pages = loader.load_and_split()
 
 text_splitter = RecursiveCharacterTextSplitter(
@@ -13,4 +16,4 @@ text_splitter = RecursiveCharacterTextSplitter(
 docs = text_splitter.split_documents(pages)
 for doc in docs:
     print(doc)
-    
+
