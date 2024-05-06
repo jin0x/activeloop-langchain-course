@@ -298,7 +298,7 @@ def setup_vector_store(data_source: str, chunk_size: int = CHUNK_SIZE) -> Vector
             vector_store = DeepLake(
                 dataset_path=dataset_path,
                 read_only=True,
-                embedding_function=embeddings,
+                embeddingembeddings,
                 token=st.session_state["activeloop_token"],
             )
     else:

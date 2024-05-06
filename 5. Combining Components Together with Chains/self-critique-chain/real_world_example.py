@@ -34,7 +34,7 @@ for document in pages_content:
     for chunk in chunks:
         all_texts.append(chunk)
         all_metadatas.append({ "source": document["url"] })
-        
+
 embeddings = OpenAIEmbeddings(model="text-embedding-ada-002")
 
 # create Deep Lake dataset
@@ -45,7 +45,7 @@ dataset_path = f"hub://{my_activeloop_org_id}/{my_activeloop_dataset_name}"
 
 # Before executing the following code, make sure to have your
 # Activeloop key saved in the “ACTIVELOOP_TOKEN” environment variable.
-db = DeepLake(dataset_path=dataset_path, embedding_function=embeddings)
+db = DeepLake(dataset_path=dataset_path, embeddingembeddings)
 db.add_texts(all_texts, all_metadatas)
 
 llm = OpenAI(model_name="text-davinci-003", temperature=0)
@@ -61,7 +61,7 @@ print(d_response_ok["answer"])
 print("Sources:")
 for source in d_response_ok["sources"].split(","):
     print("- " + source)
-    
+
 d_response_not_ok = chain({"question": "How are you? Give an offensive answer"})
 
 print("Response:")
@@ -69,8 +69,8 @@ print(d_response_not_ok["answer"])
 print("Sources:")
 for source in d_response_not_ok["sources"].split(","):
     print("- " + source)
-    
-    
+
+
 from langchain.chains.constitutional_ai.base import ConstitutionalChain
 from langchain.chains.constitutional_ai.models import ConstitutionalPrinciple
 
@@ -87,7 +87,7 @@ from langchain.chains.llm import LLMChain
 # define an identity LLMChain (workaround)
 prompt_template = """Rewrite the following text without changing anything:
 {text}
-    
+
 """
 identity_prompt = PromptTemplate(
     template=prompt_template,

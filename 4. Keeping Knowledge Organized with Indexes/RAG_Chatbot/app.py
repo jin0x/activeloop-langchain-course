@@ -8,7 +8,7 @@ os.environ["APIFY_API_TOKEN"] = db.secrets.get("APIFY_API_TOKEN")
 
 apify = ApifyWrapper()
 loader = apify.call_actor(
-    actor_id="apify/website-content-crawler", 
+    actor_id="apify/website-content-crawler",
     run_input={"startUrls": [{"url": "djpapzin"}]},
     dataset_mapping_function=lambda dataset_item: Document(
         page_content=dataset_item["text"] if dataset_item["text"] else "No content available",
@@ -42,12 +42,12 @@ username = "elleneal" # replace with your username from app.activeloop.ai
 db_id = 'kb-material'# replace with your database name
 DeepLake.force_delete_by_path(f"hub://{username}/{db_id}")
 
-dbs = DeepLake(dataset_path=f"hub://{username}/{db_id}", embedding_function=embeddings)
+dbs = DeepLake(dataset_path=f"hub://{username}/{db_id}", embeddingembeddings)
 dbs.add_documents(docs_split)
 
 from langchain.vectorstores import DeepLake
 from langchain.embeddings.cohere import CohereEmbeddings
-from langchain.retrievers import ContextualCompressionRetriever  
+from langchain.retrievers import ContextualCompressionRetriever
 from langchain.retrievers.document_compressors import CohereRerank
 import os
 
@@ -61,9 +61,9 @@ def data_lake():
     dbs = DeepLake(
         dataset_path="hub://elleneal/activeloop-material",
         read_only=True,
-        embedding_function=embeddings
+        embeddingembeddings
     )
-    
+
     retriever = dbs.as_retriever()
     retriever.search_kwargs["distance_metric"] = "cos"
     retriever.search_kwargs["fetch_k"] = 20
@@ -74,11 +74,11 @@ def data_lake():
         model = 'rerank-english-v2.0',
         top_n=5
     )
-    
+
     compression_retriever = ContextualCompressionRetriever(
         base_compressor=compressor, base_retriever=retriever
     )
-    
+
     return dbs, compression_retriever, retriever
 
 dbs, compression_retriever, retriever = data_lake()
@@ -91,7 +91,7 @@ def memory():
     memory=ConversationBufferWindowMemory(
         k=3,
         memory_key="chat_history",
-        return_messages=True, 
+        return_messages=True,
         output_key='answer'
     )
     return memory
@@ -120,11 +120,11 @@ llm = AzureChatOpenAI(
 from langchain.chains import ConversationalRetrievalChain
 
 qa = ConversationalRetrievalChain.from_llm(
-    llm=llm, 
-    retriever=compression_retriever, 
-    memory=memory, 
-    verbose=True, 
-    chain_type="stuff", 
+    llm=llm,
+    retriever=compression_retriever,
+    memory=memory,
+    verbose=True,
+    chain_type="stuff",
     return_source_documents=True
 )
 
@@ -132,23 +132,23 @@ qa = ConversationalRetrievalChain.from_llm(
 
 if st.sidebar.button("Start a New Chat Interaction"):
     clear_cache_and_session()
-    
+
 if "messages" not in st.session_state:
     st.session_state.messages = []
-    
+
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
-        
+
 def chat_ui(qa):
 
     if prompt := st.chat_input("Ask me questions: How can I retrieve data from Deep Lake in Langchain?"):
-    
+
         st.session_state.messages.append({"role": "user", "content": prompt})
 
         with st.chat_message("user"):
             st.markdown(prompt)
-            
+
         with st.chat_message("assistant"):
             message_placeholder = st.empty()
             full_response = ""
@@ -177,5 +177,5 @@ def chat_ui(qa):
         st.session_state.messages.append(
             {"role": "assistant", "content": full_response}
         )
-        
+
 chat_ui(qa)

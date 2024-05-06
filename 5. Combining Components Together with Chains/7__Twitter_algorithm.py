@@ -38,7 +38,7 @@ my_activeloop_dataset_name = "langchain_course_twitter_algorithm"
 dataset_path = f"hub://{my_activeloop_org_id}/{my_activeloop_dataset_name}"
 
 # Load the dataset
-db = DeepLake(dataset_path=dataset_path, embedding_function=embeddings)
+db = DeepLake(dataset_path=dataset_path, embeddingembeddings)
 db.add_documents(embedded_texts)  # Using the embedded texts
 
 # Define the retriever

@@ -120,7 +120,7 @@ my_activeloop_org_id = os.environ["ACTIVELOOP_ORG_ID"]
 my_activeloop_dataset_name = "langchain_course_youtube_summarizer"
 dataset_path = f"hub://{my_activeloop_org_id}/{my_activeloop_dataset_name}"
 
-db = DeepLake(dataset_path=dataset_path, embedding_function=embeddings)
+db = DeepLake(dataset_path=dataset_path, embeddingembeddings)
 db.add_documents(docs)
 
 # retriever
