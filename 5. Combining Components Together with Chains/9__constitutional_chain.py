@@ -8,7 +8,9 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.vectorstores import DeepLake
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.chains import RetrievalQAWithSourcesChain
-from langchain import OpenAI
+from langchain_openai import OpenAI
+from langchain.prompts import PromptTemplate
+from langchain.chains.llm import LLMChain
 
 documents = [
     'https://python.langchain.com/docs/get_started/introduction',
@@ -84,9 +86,6 @@ polite_principle = ConstitutionalPrinciple(
     critique_request="The assistant should be polite to the users and not use offensive language.",
     revision_request="Rewrite the assistant's output to be polite.",
 )
-
-from langchain.prompts import PromptTemplate
-from langchain.chains.llm import LLMChain
 
 # define an identity LLMChain (workaround)
 prompt_template = """Rewrite the following text without changing anything:
