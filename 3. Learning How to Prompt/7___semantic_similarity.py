@@ -1,6 +1,8 @@
 from dotenv import load_dotenv
 load_dotenv()
 
+import os
+
 from langchain.prompts.example_selector import SemanticSimilarityExampleSelector
 from langchain.vectorstores import DeepLake
 from langchain.embeddings import OpenAIEmbeddings
@@ -22,7 +24,6 @@ examples = [
 ]
 
 # create Deep Lake dataset
-# TODO: use your organization id here.  (by default, org id is your username)
 my_activeloop_org_id = os.environ["ACTIVELOOP_ORG_ID"]
 my_activeloop_dataset_name = "langchain_course_fewshot_selector"
 dataset_path = f"hub://{my_activeloop_org_id}/{my_activeloop_dataset_name}"
