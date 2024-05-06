@@ -5,6 +5,7 @@ from pydantic import BaseModel, Field, validator
 from typing import List
 from langchain.output_parsers import PydanticOutputParser
 from langchain.prompts import PromptTemplate
+from langchain_openai import OpenAI
 
 # Define your desired data structure
 class Suggestions(BaseModel):
@@ -19,7 +20,6 @@ class Suggestions(BaseModel):
         return field
 
 parser = PydanticOutputParser(pydantic_object=Suggestions)
-
 
 
 template = """
@@ -39,3 +39,9 @@ model_input = prompt.format_input(
     target_word="behavior",
     context="The behavior of the students in the classroom was disruptive and made it difficult for the teacher to conduct the lesson."
 )
+
+model = OpenAI(model_name="gpt-3.5-turbo-instruct", temperature=0)
+
+output = model(model_input.to_string())
+
+parser.parse(output)
