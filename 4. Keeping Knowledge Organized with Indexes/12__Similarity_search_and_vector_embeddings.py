@@ -1,7 +1,9 @@
-import openai
+from dotenv import load_dotenv
+load_dotenv()
+
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
-from langchain.embeddings import OpenAIEmbeddings
+from langchain_openai import OpenAIEmbeddings
 
 # Define the documents
 documents = [

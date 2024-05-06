@@ -1,22 +1,26 @@
+from dotenv import load_dotenv
+load_dotenv()
+import os
+
 import cohere
-from langchain.embeddings import CohereEmbeddings
+from langchain_community.embeddings import CohereEmbeddings
 
 # Initialize the CohereEmbeddings object
 cohere = CohereEmbeddings(
 	model="embed-multilingual-v2.0",
-	cohere_api_key="95itqFSDUc4PMznsGaIqDUaGBRhwWG6sLE4XBnTD"
+	cohere_api_key=os.environ["COHERE_API_KEY"]
 )
 
 # Define a list of texts
 texts = [
-    "Hello from Cohere!", 
-    "مرحبًا من كوهير!", 
-    "Hallo von Cohere!",  
-    "Bonjour de Cohere!", 
-    "¡Hola desde Cohere!", 
-    "Olá do Cohere!",  
-    "Ciao da Cohere!", 
-    "您好，来自 Cohere！", 
+    "Hello from Cohere!",
+    "مرحبًا من كوهير!",
+    "Hallo von Cohere!",
+    "Bonjour de Cohere!",
+    "¡Hola desde Cohere!",
+    "Olá do Cohere!",
+    "Ciao da Cohere!",
+    "您好，来自 Cohere！",
     "कोहेरे से नमस्ते!"
 ]
 
