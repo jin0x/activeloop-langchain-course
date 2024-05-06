@@ -1,3 +1,6 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 import os
 from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.vectorstores import DeepLake
@@ -6,14 +9,6 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain.chat_models import ChatOpenAI
 from langchain.chains import ConversationalRetrievalChain
 
-# Access the keys from the .env file
-OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
-ACTIVELOOP_TOKEN = os.getenv('ACTIVELOOP_TOKEN')
-
-# Set the environment variables
-os.environ['OPENAI_API_KEY'] = OPENAI_API_KEY
-os.environ['ACTIVELOOP_TOKEN'] = ACTIVELOOP_TOKEN
-
 embeddings = OpenAIEmbeddings()
 
 # Load all files inside the repository.
@@ -21,10 +16,10 @@ root_dir = './the-algorithm'
 docs = []
 for dirpath, dirnames, filenames in os.walk(root_dir):
     for file in filenames:
-        try: 
+        try:
             loader = TextLoader(os.path.join(dirpath, file), encoding='utf-8')
             docs.extend(loader.load_and_split())
-        except Exception as e: 
+        except Exception as e:
             pass
 
 # Divide the loaded files into chunks:
@@ -60,10 +55,10 @@ questions = [
     "What does favCountParams do?",
     "is it Likes + Bookmarks, or not clear from the code?",
     # ... [add more questions as needed]
-] 
+]
 chat_history = []
 
-for question in questions:  
+for question in questions:
     result = qa({"question": question, "chat_history": chat_history})
     chat_history.append((question, result['answer']))
     print(f"-> **Question**: {question} \n")
