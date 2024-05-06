@@ -1,14 +1,12 @@
-import os 
-import json 
 from dotenv import load_dotenv
+load_dotenv()
+
 import requests
 from newspaper import Article
 from langchain.schema import (
     HumanMessage
 )
-from langchain.chat_models import ChatOpenAI
-
-load_dotenv()
+from langchain_community.chat_models import ChatOpenAI
 
 headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.82 Safari/537.36'
@@ -20,12 +18,12 @@ session = requests.Session()
 
 try:
   response = session.get(article_url, headers=headers, timeout=10)
-  
+
   if response.status_code == 200:
       article = Article(article_url)
       article.download()
       article.parse()
-      
+
     #   print(f"Title: {article.title}")
     #   print(f"Text: {article.text}")
   else:
@@ -67,9 +65,9 @@ Please provide a summarized version of the article in a bulleted list format.
 """
 
 # Format the Prompt
-prompt = template.format(article_title=article.title, article_text=article.text)
+prompt = template.format(article_title=article_title, article_text=article_text)
 
-messages = [HumanMessage(content=prompt)]    
+messages = [HumanMessage(content=prompt)]
 
 # load the model
 chat = ChatOpenAI(model_name="gpt-3.5-turbo-16k", temperature=0.0)

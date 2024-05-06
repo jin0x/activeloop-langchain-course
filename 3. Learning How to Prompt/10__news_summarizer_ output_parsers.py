@@ -1,11 +1,12 @@
-from langchain.output_parsers import PydanticOutputParser
+from dotenv import load_dotenv
+load_dotenv()
+
 from pydantic import field_validator
 from pydantic import BaseModel, Field
 from typing import List
 from langchain.prompts import PromptTemplate
-from langchain.llms import OpenAI
-
-
+from langchain.output_parsers import PydanticOutputParser
+from langchain_openai import OpenAI
 
 # create output parser class
 class ArticleSummary(BaseModel):
