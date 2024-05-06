@@ -48,7 +48,7 @@ text_splitter = CharacterTextSplitter(chunk_size=400, chunk_overlap=20)
 docs = text_splitter.split_documents(docs_from_file)
 
 embedding_model = OpenAIEmbeddings(model="text-embedding-ada-002")
-mml = OpenAI(model="gpt-3.5-turbo-instruct", temperature=0)
+llm = OpenAI(model="gpt-3.5-turbo-instruct", temperature=0)
 
 # Before executing the following code, make sure to have
 embeddings = embedding_model
