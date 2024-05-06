@@ -8,6 +8,7 @@ from langchain_community.vectorstores import DeepLake
 from langchain.text_splitter import CharacterTextSplitter
 from langchain_community.document_loaders import SeleniumURLLoader
 from langchain.prompts import PromptTemplate
+from langchain_openai import OpenAI
 
 # we'll use information from the following articles
 urls = ['https://beebom.com/what-is-nft-explained/',
@@ -41,11 +42,6 @@ db = DeepLake(dataset_path=dataset_path, embedding=embeddings, overwrite=True)
 # add documents to our Deep Lake dataset
 db.add_documents(docs)
 
-# let's see the top relevant documents to a specific query
-query = "how to check disk usage in linux?"
-docs = db.similarity_search(query)
-# print(docs[0].page_content)
-
 # let's write a prompt for a customer support chatbot that
 # answer questions using information extracted from our db
 template = """You are an exceptional customer support chatbot that gently answer questions.
@@ -64,3 +60,19 @@ prompt = PromptTemplate(
     input_variables=["chunks_formatted", "query"],
     template=template,
 )
+
+# user question
+query = "How to check disk usage in linux?"
+
+# retrieve relevant chunks
+docs = db.similarity_search(query)
+retrieved_chunks = [doc.page_content for doc in docs]
+
+# format the prompt
+chunks_formatted = "\n\n".join(retrieved_chunks)
+prompt_formatted = prompt.format(chunks_formatted=chunks_formatted, query=query)
+
+# generate answer
+llm = OpenAI(model="gpt-3.5-turbo-instruct", temperature=0)
+answer = llm(prompt_formatted)
+print(answer)
