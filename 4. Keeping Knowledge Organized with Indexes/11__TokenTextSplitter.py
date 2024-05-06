@@ -1,7 +1,7 @@
 from langchain.text_splitter import TokenTextSplitter
 
 # Load a long document
-with open('my_file.txt', encoding= 'unicode_escape') as f:
+with open('../data/my_file.txt', encoding= 'unicode_escape') as f:
     sample_text = f.read()
 
 # Initialize the TokenTextSplitter with desired chunk size and overlap
