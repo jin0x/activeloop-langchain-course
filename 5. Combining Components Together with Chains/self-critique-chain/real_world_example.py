@@ -45,7 +45,7 @@ dataset_path = f"hub://{my_activeloop_org_id}/{my_activeloop_dataset_name}"
 
 # Before executing the following code, make sure to have your
 # Activeloop key saved in the “ACTIVELOOP_TOKEN” environment variable.
-db = DeepLake(dataset_path=dataset_path, embeddingembeddings)
+db = DeepLake(dataset_path=dataset_path, embedding=embeddings)
 db.add_texts(all_texts, all_metadatas)
 
 llm = OpenAI(model_name="text-davinci-003", temperature=0)

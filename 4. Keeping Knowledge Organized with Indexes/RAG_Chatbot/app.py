@@ -42,7 +42,7 @@ username = "elleneal" # replace with your username from app.activeloop.ai
 db_id = 'kb-material'# replace with your database name
 DeepLake.force_delete_by_path(f"hub://{username}/{db_id}")
 
-dbs = DeepLake(dataset_path=f"hub://{username}/{db_id}", embeddingembeddings)
+dbs = DeepLake(dataset_path=f"hub://{username}/{db_id}", embedding=embeddings)
 dbs.add_documents(docs_split)
 
 from langchain.vectorstores import DeepLake
@@ -61,7 +61,7 @@ def data_lake():
     dbs = DeepLake(
         dataset_path="hub://elleneal/activeloop-material",
         read_only=True,
-        embeddingembeddings
+        embedding=embeddings
     )
 
     retriever = dbs.as_retriever()
