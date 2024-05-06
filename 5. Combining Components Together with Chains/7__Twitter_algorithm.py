@@ -7,7 +7,7 @@ from langchain.vectorstores import DeepLake
 from langchain.document_loaders import TextLoader
 from langchain.text_splitter import CharacterTextSplitter
 from langchain.chat_models import ChatOpenAI
-from langchain.chains import ConversationalRetrievalChain
+from langchain.chains import RetrievalQA
 
 embeddings = OpenAIEmbeddings()
 
@@ -37,6 +37,7 @@ my_activeloop_org_id = os.environ["ACTIVELOOP_ORG_ID"]
 my_activeloop_dataset_name = "langchain_course_twitter_algorithm"
 dataset_path = f"hub://{my_activeloop_org_id}/{my_activeloop_dataset_name}"
 
+# Load the dataset
 db = DeepLake(dataset_path=dataset_path, embedding_function=embeddings)
 db.add_documents(embedded_texts)  # Using the embedded texts
 
@@ -47,18 +48,14 @@ retriever.search_kwargs['fetch_k'] = 100
 retriever.search_kwargs['maximal_marginal_relevance'] = True
 retriever.search_kwargs['k'] = 10
 
-# Load the dataset
-db = DeepLake(dataset_path="hub://djpapzin/twitter-algorithm", read_only=True, embedding_function=embeddings)
-
-# Connect to GPT-4 for question answering
+# Connect to GPT for question answering
 model = ChatOpenAI(model='gpt-3.5-turbo')  # switch to 'gpt-4'
-qa = ConversationalRetrievalChain.from_llm(model, retriever=retriever)
+qa = RetrievalQA.from_llm(model, retriever=retriever)
 
 # Define questions and get answers
 questions = [
     "What does favCountParams do?",
     "is it Likes + Bookmarks, or not clear from the code?",
-    # ... [add more questions as needed]
 ]
 chat_history = []
 
