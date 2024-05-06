@@ -1,54 +1,41 @@
 from dotenv import load_dotenv
 load_dotenv()
 
-from langchain.prompts.example_selector import SemanticSimilarityExampleSelector
-from langchain.vectorstores import DeepLake
-from langchain.embeddings import OpenAIEmbeddings
-from langchain.prompts import FewShotPromptTemplate, PromptTemplate
+from pydantic import BaseModel, Field, validator
+from typing import List
+from langchain.output_parsers import PydanticOutputParser
+from langchain.prompts import PromptTemplate
 
-# Create a PromptTemplate
-example_prompt = PromptTemplate(
-    input_variables=["input", "output"],
-    template="Input: {input}\nOutput: {output}",
+# Define your desired data structure
+class Suggestions(BaseModel):
+    words: List[str] = Field(description="List of substitute words based on given context")
+
+    # Throw error in case of receiving a numbered-list from API
+    @validator('words')
+    def not_start_with_number(cls, field):
+        for item in field:
+            if item[0].isnumeric():
+                raise ValueError("The word cannot start with a number")
+        return field
+
+parser = PydanticOutputParser(pydantic_object=Suggestions)
+
+
+
+template = """
+Offer a list of suggestions to substitute the specified target_word based the presented context.
+{format_instructions}
+target_word={target_word}
+context={context}
+"""
+
+prompt = PromptTemplate(
+    template=template,
+    input_variables=["target_word", "context"],
+    partial_variables={"format_instructions": parser.get_format_instructions()}
 )
 
-# Define some examples
-examples = [
-    {"input": "0°C", "output": "32°F"},
-    {"input": "10°C", "output": "50°F"},
-    {"input": "20°C", "output": "68°F"},
-    {"input": "30°C", "output": "86°F"},
-    {"input": "40°C", "output": "104°F"},
-]
-
-# create Deep Lake dataset
-# TODO: use your organization id here.  (by default, org id is your username)
-my_activeloop_org_id = "<YOUR-ACTIVELOOP-ORG-ID>"
-my_activeloop_dataset_name = "langchain_course_fewshot_selector"
-dataset_path = f"hub://{my_activeloop_org_id}/{my_activeloop_dataset_name}"
-db = DeepLake(dataset_path=dataset_path)
-
-# Embedding function
-embeddings = OpenAIEmbeddings(model="text-embedding-ada-002")
-
-# Instantiate SemanticSimilarityExampleSelector using the examples
-example_selector = SemanticSimilarityExampleSelector.from_examples(
-    examples, embeddings, db, k=1
+model_input = prompt.format_input(
+    target_word="behavior",
+    context="The behavior of the students in the classroom was disruptive and made it difficult for the teacher to conduct the lesson."
 )
-
-# Create a FewShotPromptTemplate using the example_selector
-similar_prompt = FewShotPromptTemplate(
-    example_selector=example_selector,
-    example_prompt=example_prompt,
-    prefix="Convert the temperature from Celsius to Fahrenheit",
-    suffix="Input: {temperature}\nOutput:",
-    input_variables=["temperature"],
-)
-
-# Test the similar_prompt with different inputs
-print(similar_prompt.format(temperature="10°C"))   # Test with an input
-print(similar_prompt.format(temperature="30°C"))  # Test with another input
-
-# Add a new example to the SemanticSimilarityExampleSelector
-similar_prompt.example_selector.add_example({"input": "50°C", "output": "122°F"})
-print(similar_prompt.format(temperature="40°C")) # Test with a new input after adding the example
