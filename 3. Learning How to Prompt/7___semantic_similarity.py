@@ -23,7 +23,7 @@ examples = [
 
 # create Deep Lake dataset
 # TODO: use your organization id here.  (by default, org id is your username)
-my_activeloop_org_id = "<YOUR-ACTIVELOOP-ORG-ID>"
+my_activeloop_org_id = os.environ["ACTIVELOOP_ORG_ID"]
 my_activeloop_dataset_name = "langchain_course_fewshot_selector"
 dataset_path = f"hub://{my_activeloop_org_id}/{my_activeloop_dataset_name}"
 db = DeepLake(dataset_path=dataset_path)

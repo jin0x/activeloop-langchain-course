@@ -38,8 +38,7 @@ for document in pages_content:
 embeddings = OpenAIEmbeddings(model="text-embedding-ada-002")
 
 # create Deep Lake dataset
-# TODO: use your organization id here. (by default, org id is your username)
-my_activeloop_org_id = "djpapzin"
+my_activeloop_org_id = os.environ["ACTIVELOOP_ORG_ID"]
 my_activeloop_dataset_name = "langchain_course_constitutional_chain"
 dataset_path = f"hub://{my_activeloop_org_id}/{my_activeloop_dataset_name}"
 
@@ -48,7 +47,7 @@ dataset_path = f"hub://{my_activeloop_org_id}/{my_activeloop_dataset_name}"
 db = DeepLake(dataset_path=dataset_path, embedding=embeddings)
 db.add_texts(all_texts, all_metadatas)
 
-llm = OpenAI(model_name="text-davinci-003", temperature=0)
+llm = OpenAI(model_name="gpt-3.5-turbo-instruct", temperature=0)
 
 chain = RetrievalQAWithSourcesChain.from_chain_type(llm=llm,
                                                     chain_type="stuff",

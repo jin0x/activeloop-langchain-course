@@ -13,8 +13,7 @@ evil_assistant_prompt = PromptTemplate(
 )
 
 # Before executing the following code, make sure to have
-# your OpenAI key saved in the “OPENAI_API_KEY” environment variable.
-llm = OpenAI(model_name="text-davinci-003", temperature=0)
+llm = OpenAI(model_name="gpt-3.5-turbo-instruct", temperature=0)
 evil_assistant_chain = LLMChain(llm=llm, prompt=evil_assistant_prompt)
 
 result = evil_assistant_chain.run(inquiry="Getting full mark on my exams.")
