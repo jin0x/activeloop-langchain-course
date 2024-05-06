@@ -5,8 +5,15 @@
 .vscode/
 **/.vscode/
 
+
+__pycache__/
+**/__pycache__/
+
 ### dotenv ###
 .env
+**/.env
+.secrets.toml
+**/.secrets.toml
 
 ### Intellij ###
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider
