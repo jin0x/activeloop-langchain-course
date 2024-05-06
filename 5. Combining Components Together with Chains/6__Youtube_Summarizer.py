@@ -1,5 +1,7 @@
-import os
 from dotenv import load_dotenv
+load_dotenv()
+
+import os
 import yt_dlp
 import whisper
 import textwrap
@@ -12,9 +14,6 @@ from langchain.chains.mapreduce import MapReduceChain
 from langchain.chains.summarize import load_summarize_chain
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.docstore.document import Document
-
-# load API kets
-load_dotenv()
 
 # set API keys
 openai_api_key = os.environ['OPENAI_API_KEY']
