@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 load_dotenv()
 
-from langchain.chains import LLMChain
+from langchain.chains import LLMChain, SimpleSequentialChain
 from langchain.chains.base import Chain
 from langchain.prompts import PromptTemplate
 from langchain_openai import OpenAI
@@ -66,5 +66,10 @@ critic_prompt_template: PromptTemplate = PromptTemplate(
 critic_chain: LLMChain = LLMChain(
     llm=llm, output_key="critic_verified", prompt=critic_prompt_template)
 
+overall_chain = SimpleSequentialChain(chains=[poet_chain, critic_chain])
+# Run the poet and critic chain with a specific theme
+theme: str = "the beauty of nature"
+review = overall_chain.run(theme)
 
-concat_chain = ConcatenateChain(chain_1=poet_chain, chain_2=critic_chain)
+# Print the review to see the critic's evaluation
+print(review)
