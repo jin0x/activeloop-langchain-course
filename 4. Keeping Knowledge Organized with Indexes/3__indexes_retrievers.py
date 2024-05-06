@@ -47,12 +47,13 @@ text_splitter = CharacterTextSplitter(chunk_size=400, chunk_overlap=20)
 # split documents into chunks
 docs = text_splitter.split_documents(docs_from_file)
 
+embedding_model = OpenAIEmbeddings(model="text-embedding-ada-002")
+mml = OpenAI(model="gpt-3.5-turbo-instruct", temperature=0)
+
 # Before executing the following code, make sure to have
-# your OpenAI key saved in the “OPENAI_API_KEY” environment variable.
-embeddings = OpenAIEmbeddings(model="text-embedding-ada-002")
+embeddings = embedding_model
 
 # create Deep Lake dataset
-# TODO: use your organization id here. (by default, org id is your username)
 my_activeloop_org_id = os.environ["ACTIVELOOP_ORG_ID"]
 my_activeloop_dataset_name = "langchain_course_indexers_retrievers"
 dataset_path = f"hub://{my_activeloop_org_id}/{my_activeloop_dataset_name}"
@@ -66,7 +67,7 @@ retriever = db.as_retriever()
 
 # create a retrieval chain
 qa_chain = RetrievalQA.from_chain_type(
-	llm=OpenAI(model="gpt-3.5-turbo-instruct"),
+	llm=llm,
 	chain_type="stuff",
 	retriever=retriever
 )
@@ -74,9 +75,6 @@ qa_chain = RetrievalQA.from_chain_type(
 query = "How Google plans to challenge OpenAI?"
 response = qa_chain.invoke(query)
 print(response)
-
-# create GPT3 wrapper
-llm = OpenAI(model="gpt-3.5-turbo-instruct", temperature=0)
 
 # create compressor for the retriever
 compressor = LLMChainExtractor.from_llm(llm)
