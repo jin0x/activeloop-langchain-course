@@ -1,9 +1,14 @@
-from langchain.document_loaders import TextLoader
+from dotenv import load_dotenv
+load_dotenv()
+
+import os
+
+from langchain_community.document_loaders import TextLoader
 from langchain.text_splitter import CharacterTextSplitter
-from langchain.embeddings import OpenAIEmbeddings
-from langchain.vectorstores import DeepLake
+from langchain_openai import OpenAIEmbeddings
+from langchain_community.vectorstores import DeepLake
 from langchain.chains import RetrievalQA
-from langchain.llms import OpenAI
+from langchain_openai import OpenAI
 from langchain.retrievers import ContextualCompressionRetriever
 from langchain.retrievers.document_compressors import LLMChainExtractor
 from dotenv import load_dotenv
@@ -48,10 +53,10 @@ embeddings = OpenAIEmbeddings(model="text-embedding-ada-002")
 
 # create Deep Lake dataset
 # TODO: use your organization id here. (by default, org id is your username)
-my_activeloop_org_id = "langchain_course_deeplake"
+my_activeloop_org_id = os.environ["ACTIVELOOP_ORG_ID"]
 my_activeloop_dataset_name = "langchain_course_indexers_retrievers"
 dataset_path = f"hub://{my_activeloop_org_id}/{my_activeloop_dataset_name}"
-db = DeepLake(dataset_path=dataset_path, embedding_function=embeddings)
+db = DeepLake(dataset_path=dataset_path, embedding=embeddings, overwrite=True)
 
 # add documents to our Deep Lake dataset
 db.add_documents(docs)
@@ -61,17 +66,17 @@ retriever = db.as_retriever()
 
 # create a retrieval chain
 qa_chain = RetrievalQA.from_chain_type(
-	llm=OpenAI(model="text-davinci-003"),
+	llm=OpenAI(model="gpt-3.5-turbo-instruct"),
 	chain_type="stuff",
 	retriever=retriever
 )
 
 query = "How Google plans to challenge OpenAI?"
-response = qa_chain.run(query)
+response = qa_chain.invoke(query)
 print(response)
 
 # create GPT3 wrapper
-llm = OpenAI(model="text-davinci-003", temperature=0)
+llm = OpenAI(model="gpt-3.5-turbo-instruct", temperature=0)
 
 # create compressor for the retriever
 compressor = LLMChainExtractor.from_llm(llm)
@@ -81,7 +86,5 @@ compression_retriever = ContextualCompressionRetriever(
 )
 
 # retrieving compressed documents
-retrieved_docs = compression_retriever.get_relevant_documents(
-	"How Google plans to challenge OpenAI?"
-)
+retrieved_docs = compression_retriever.invoke(query)
 print(retrieved_docs[0].page_content)
