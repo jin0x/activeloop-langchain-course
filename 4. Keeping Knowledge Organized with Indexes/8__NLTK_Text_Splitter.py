@@ -1,7 +1,7 @@
 from langchain.text_splitter import NLTKTextSplitter
 
 # Load a long document
-with open('my_file.txt', encoding= 'unicode_escape') as f:
+with open('../data/my_file.txt', encoding= 'unicode_escape') as f:
     sample_text = f.read()
 
 text_splitter = NLTKTextSplitter(chunk_size=500)

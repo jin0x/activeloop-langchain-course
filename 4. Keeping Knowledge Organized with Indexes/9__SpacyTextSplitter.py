@@ -1,7 +1,7 @@
 from langchain.text_splitter import SpacyTextSplitter
 
 # Load a long document
-with open('my_file.txt', encoding= 'unicode_escape') as f:
+with open('../data/my_file.txt', encoding= 'unicode_escape') as f:
     sample_text = f.read()
 
 # Instantiate the SpacyTextSplitter with the desired chunk size

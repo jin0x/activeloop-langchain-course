@@ -1,7 +1,7 @@
 from langchain.text_splitter import MarkdownTextSplitter
 
 markdown_text = """
-# 
+#
 
 # Welcome to My Blog!
 
