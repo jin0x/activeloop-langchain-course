@@ -33,7 +33,11 @@ print(f"Number of text chunks: {len(texts)}")
 embedded_texts = [embeddings.embed(text) for text in texts]
 
 # Perform the indexing process and upload embeddings to Deep Lake
-db = DeepLake(dataset_path="hub://djpapzin/twitter-algorithm", embedding_function=embeddings)
+my_activeloop_org_id = os.environ["ACTIVELOOP_ORG_ID"]
+my_activeloop_dataset_name = "langchain_course_twitter_algorithm"
+dataset_path = f"hub://{my_activeloop_org_id}/{my_activeloop_dataset_name}"
+
+db = DeepLake(dataset_path=dataset_path, embedding_function=embeddings)
 db.add_documents(embedded_texts)  # Using the embedded texts
 
 # Define the retriever
