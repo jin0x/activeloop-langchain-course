@@ -1,5 +1,3 @@
-# https://github.com/peterw/Chat-with-Github-Repo/tree/main
-
 from dotenv import load_dotenv
 load_dotenv()
 import os
